@@ -1,16 +1,10 @@
 const express = require('express');
 const app = express();
+const usersRoutes = require('./src/routes/users');
 const port = 4000;
 
-app.all('/users', (request, response, next) => {
-	response.send('users page');
-	next();		
-})
+app.use(usersRoutes);
 
-app.get('/posts', (request, response) => {
-	response.send('posts page');
-})
-
-app.listen(port, (req, res) => {
+app.listen(port, () => {
     	console.log('Server is running!');
 })
