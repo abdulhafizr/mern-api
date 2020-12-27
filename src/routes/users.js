@@ -2,15 +2,13 @@ const express = require('express');
 const app = express();
 const userController = require('../controllers/userController');
 
-const {index, show, store, update, destroy} = userController;
+const {register, login, update, destroy} = userController;
 
-app.get('/users', index);
+app.post('/v1/user', register);
 
-app.get('/users/:userId', show);
+app.get('/v1/users', login);
 
-app.post('/user', store);
-
-app.route('/user/:userId')
+app.route('/v1/user/:userId')
     .put(update)
     .delete(destroy);
 
