@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const usersRoutes = require('./src/routes/users');
+const blogsRoutes = require('./src/routes/blogs');
 const port = 4000;
 
 app.use(express.json());
@@ -16,6 +17,7 @@ app.use((request, response, next) => {
 
 
 app.use(usersRoutes);
+app.use(blogsRoutes);
 
 app.listen(port, () => {
     	console.log('Server is running!');
