@@ -6,8 +6,13 @@ module.exports = blogController = {
             message: "Blog created Successfully!",
             data: {
                 title,
-                image,
+                image: "image.jpg",
                 body,
+                timestamp: 941724218,
+                author: {
+                    uid: "ajfkajfe",
+                    name: "Anonymous"
+                }
             },
             method,
             responseStatus: "Post Success"

@@ -4,7 +4,7 @@ const blogController = require('../controllers/blogController');
 
 const {store, index, show, update, destroy} = blogController;
 
-app.post('/v1/blog', store);
+app.post('/v1/blog/post', store);
 
 app.get('/v1/blogs', index);
 
