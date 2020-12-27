@@ -1,7 +1,15 @@
+const {validationResult} = require('express-validator');
+
 module.exports = blogController = {
     store: (request, response) => {
+        const errors = validationResult(request);
+
+        if(!errors.isEmpty()) {
+            throw new Error("kok nggak bisa cokk!");
+        }
+
         const {method} = request;
-        const {title, image, body} = request.body;
+        const {title, body} = request.body;
         response.status(201).json({
             message: "Blog created Successfully!",
             data: {

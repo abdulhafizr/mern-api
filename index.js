@@ -15,9 +15,12 @@ app.use((request, response, next) => {
 	next();
 })
 
-
 app.use(usersRoutes);
 app.use(blogsRoutes);
+
+app.use((error, req, res, next) => {
+	res.status(500).json(error.msg);
+})
 
 app.listen(port, () => {
     	console.log('Server is running!');
