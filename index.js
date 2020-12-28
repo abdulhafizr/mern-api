@@ -3,6 +3,7 @@ const app = express();
 const usersRoutes = require('./src/routes/users');
 const blogsRoutes = require('./src/routes/blogs');
 const port = 4000;
+const mongoose = require('mongoose');
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -17,11 +18,12 @@ app.use((request, response, next) => {
 
 app.use(usersRoutes);
 app.use(blogsRoutes);
-
-app.use((error, req, res, next) => {
-	res.status(500).json(error.msg);
-})
-
-app.listen(port, () => {
-    	console.log('Server is running!');
-})
+mongoose.connect('mongodb://127.0.0.1:27017/blog', {useNewUrlParser: true, useUnifiedTopology: true})
+	.then(() => {
+		app.listen(port, () => {
+			console.log('Connection successfully');
+		})
+	})
+	.catch((error) => {
+		console.log(error)
+	})
