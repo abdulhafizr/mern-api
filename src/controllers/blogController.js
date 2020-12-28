@@ -1,30 +1,39 @@
 const {validationResult} = require('express-validator');
+const blogModel = require('../models/blog');
 
 module.exports = blogController = {
     store: (request, response) => {
         const errors = validationResult(request);
 
         if(!errors.isEmpty()) {
-            throw new Error("kok nggak bisa cokk!");
+            // throw new Error("error ini cok!");
+            response.status(400).json({
+                message: "BAD Request",
+                data: errors.array(),
+                method: request.method
+            })
         }
 
-        const {method} = request;
         const {title, body} = request.body;
-        response.status(201).json({
-            message: "Blog created Successfully!",
-            data: {
-                title,
-                image: "image.jpg",
-                body,
-                timestamp: 941724218,
-                author: {
-                    uid: "ajfkajfe",
-                    name: "Anonymous"
-                }
-            },
-            method,
-            responseStatus: "Post Success"
+        const {method} = request;
+       
+        blogModel.create({
+            title,
+            body,
+            author: {
+                uid: "jfnjwefuiwehfiwbefuwiwubfawue",
+                name: "abdul hafiz ramadan"
+            }
+        }, (error, result) => {
+            if(error) return console.log(error);
+            response.status(201).json({
+                message: "Blog created Successfully!",
+                data: result,
+                method,
+                responseStatus: "Post Success"
+            })
         })
+
     },
     index: (request, response) => {
         

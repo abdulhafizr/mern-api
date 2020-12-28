@@ -7,7 +7,7 @@ const {store, index, show, update, destroy} = blogController;
 
 app.post(
     '/v1/blog/post',[
-        body('title').isLength({min: 5}).withMessage("Error wooy"),
+        body('title').isLength({min: 5}),
         body('body').isLength({min: 10})
     ],
     store
