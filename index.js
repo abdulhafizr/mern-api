@@ -1,9 +1,17 @@
+// express setup
 const express = require('express');
 const app = express();
+
+// mongodb atlas setup
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb+srv://abdul:221122@cluster0.j22gm.mongodb.net/blog?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true });
+
+// routes
 const usersRoutes = require('./src/routes/users');
 const blogsRoutes = require('./src/routes/blogs');
+// port server
 const port = 4000;
-const mongoose = require('mongoose');
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -18,12 +26,12 @@ app.use((request, response, next) => {
 
 app.use(usersRoutes);
 app.use(blogsRoutes);
-mongoose.connect('mongodb://127.0.0.1:27017/blog', {useNewUrlParser: true, useUnifiedTopology: true})
-	.then(() => {
-		app.listen(port, () => {
-			console.log('Connection successfully');
-		})
-	})
-	.catch((error) => {
-		console.log(error)
-	})
+
+client.connect(err => {
+    // const collection = client.db("test").collection("devices");
+    app.listen(port, () => {
+        console.log("Server on the sky");
+      })
+  // perform actions on the collection object
+  client.close();
+});
