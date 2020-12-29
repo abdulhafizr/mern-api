@@ -2,10 +2,8 @@
 const express = require('express');
 const app = express();
 
-// mongodb atlas setup
-const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://abdul:221122@cluster0.j22gm.mongodb.net/blog?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true });
+// mongodb local setup
+const mongoose = require('mongoose');
 
 // default
 app.use(express.json());
@@ -30,21 +28,19 @@ app.use((request, response, next) => {
 app.use(usersRoutes);
 app.use(blogsRoutes);
 
-// app.use((error, request, response, next) => {
-//   const status = error.status || 500;
-//   const {message, data, method} = error;
-//   response.status(status).json({
-//     message,
-//     data,
-//     method
-//   })
-// })
-
-client.connect((err) => {
-  const collection = client.db("blog").collection("blogs");
-  app.listen(port, () => {
-    console.log("Server on the sky");
+app.use((error, request, response, next) => {
+  const status = error.status || 500;
+  const {message, data, method} = error;
+  response.status(status).json({
+    message,
+    data,
+    method
   })
-  // perform actions on the collection object
-  client.close();
-});
+})
+
+mongoose.connect("mongodb://127.0.0.1:27017/blog", {useNewUrlParser: true, useUnifiedTopology: true})
+  .then(() => {
+    app.listen(port, () => {
+      console.log("Server on the sky");
+    })
+  })
