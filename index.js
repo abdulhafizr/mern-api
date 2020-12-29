@@ -7,14 +7,17 @@ const MongoClient = require('mongodb').MongoClient;
 const uri = "mongodb+srv://abdul:221122@cluster0.j22gm.mongodb.net/blog?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true });
 
+// default
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+
+
 // routes
 const usersRoutes = require('./src/routes/users');
 const blogsRoutes = require('./src/routes/blogs');
 // port server
 const port = 4000;
 
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
 
 // handle CORS origin
 app.use((request, response, next) => {
@@ -27,11 +30,21 @@ app.use((request, response, next) => {
 app.use(usersRoutes);
 app.use(blogsRoutes);
 
-client.connect(err => {
-    // const collection = client.db("test").collection("devices");
-    app.listen(port, () => {
-        console.log("Server on the sky");
-      })
+// app.use((error, request, response, next) => {
+//   const status = error.status || 500;
+//   const {message, data, method} = error;
+//   response.status(status).json({
+//     message,
+//     data,
+//     method
+//   })
+// })
+
+client.connect((err) => {
+  const collection = client.db("blog").collection("blogs");
+  app.listen(port, () => {
+    console.log("Server on the sky");
+  })
   // perform actions on the collection object
   client.close();
 });

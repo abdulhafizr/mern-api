@@ -6,12 +6,11 @@ module.exports = blogController = {
         const errors = validationResult(request);
 
         if(!errors.isEmpty()) {
-            // throw new Error("error ini cok!");
-            response.status(400).json({
-                message: "BAD Request",
-                data: errors.array(),
-                method: request.method
-            })
+            const error = new Error("Request error");
+            error.status = 400;
+            error.data = errors.array();
+            error.method = request.method;
+            throw error;
         }
 
         const {title, body} = request.body;
