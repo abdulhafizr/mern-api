@@ -2,13 +2,43 @@
 const express = require('express');
 const app = express();
 
+// multer setup
+const multer = require('multer');
+
 // mongodb local setup
 const mongoose = require('mongoose');
+
+// images handling
+// file storage
+const storage = multer.diskStorage({
+  destination: (request, file, callback) => {
+    callback(null, "assets/images");
+  },
+  filename: (request, file, callback) => {
+    callback(null, `${new Date().getTime()}-${file.originalname}`)
+  }
+})
+
+// valid images
+const validImages = [
+  "image/png",
+  "image/jpg",
+  "image/jpeg"
+];
+
+// file filter
+const fileFilter = (req, file, callback) => {
+  if(validImages.includes(file.mimetype)) {
+    callback(null, true);
+  }else{
+    callback(null, false);
+  }
+}
 
 // default
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-
+app.use(multer({storage, fileFilter}).single('image'));
 
 // routes
 const usersRoutes = require('./src/routes/users');

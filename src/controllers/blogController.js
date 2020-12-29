@@ -13,11 +13,21 @@ module.exports = blogController = {
             throw error;
         }
 
+        if(!request.file) {
+            const error = new Error("Request error, image not found");
+            error.status = 422;
+            error.data = null;
+            error.method = request.method;
+            throw error;
+        }
+
         const {title, body} = request.body;
+        const image = request.file.path;
         const {method} = request;
        
         blogModel.create({
             title,
+            image,
             body,
             author: {
                 uid: "jfnjwefuiwehfiwbefuwiwubfawue",
