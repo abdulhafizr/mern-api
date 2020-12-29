@@ -35,7 +35,22 @@ module.exports = blogController = {
 
     },
     index: (request, response) => {
-        
+        blogModel.find({}, (error, blogs) => {
+            if(error) {
+                const error = new Error("Error on Server side");
+                error.status = 500;
+                error.data = null;
+                error.method = request.method;
+                throw error;
+            }
+
+            const {method} = request;
+            response.status(200).json({
+                message: "Request successfully",
+                data: blogs,
+                method
+            })
+        });
     },
     show: (request, response) => {
         
