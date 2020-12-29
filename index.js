@@ -2,6 +2,9 @@
 const express = require('express');
 const app = express();
 
+// static file setup
+const path = require('path');
+
 // multer setup
 const multer = require('multer');
 
@@ -38,6 +41,7 @@ const fileFilter = (req, file, callback) => {
 // default
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(express.static('assets'));
 app.use(multer({storage, fileFilter}).single('image'));
 
 // routes

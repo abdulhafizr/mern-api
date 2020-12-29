@@ -14,7 +14,7 @@ module.exports = blogController = {
         }
 
         if(!request.file) {
-            const error = new Error("Request error, image not found");
+            const error = new Error("Request image error");
             error.status = 422;
             error.data = null;
             error.method = request.method;
